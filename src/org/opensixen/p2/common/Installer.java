@@ -6,6 +6,7 @@ package org.opensixen.p2.common;
 import java.util.ArrayList;
 
 import org.eclipse.equinox.internal.p2.director.app.DirectorApplication;
+import org.osgi.framework.BundleContext;
 
 /**
  * @author harlock
@@ -67,9 +68,11 @@ public class Installer {
 		*/				
 	}
 	
-	private ArrayList<String> getInstallBaseArgs(String targetDir)	{
+	private static ArrayList<String> getInstallBaseArgs(String targetDir)	{
 		ArrayList<String> args = new ArrayList<String>();
 
+		BundleContext ctx = Activator.getContext();
+		
 		// Destino
 		args.add("-destination");
 		args.add(targetDir);
@@ -78,13 +81,14 @@ public class Installer {
 		args.add(targetDir);
 		
 		args.add("-profileProperties");
+		
 		args.add("org.eclipse.update.install.features=true");
 		args.add("-p2.os");
-		args.add("linux");
+		args.add(ctx.getProperty("osgi.os"));
 		args.add("-p2.ws");
-		args.add("gtk");
+		args.add(ctx.getProperty("osgi.ws"));
 		args.add("-p2.arch");
-		args.add("x86");
+		args.add(ctx.getProperty("osgi.arch"));
 		args.add("-roaming");
 				
 		return args;
