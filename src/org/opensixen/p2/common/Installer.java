@@ -52,7 +52,12 @@ public class Installer {
 		args.add(getRepositoryParam(description.getProductMetadataURL()));
 				
 		String[] argsArray = args.toArray(new String[args.size()]);
-		director.run(argsArray);
+		Integer ret = (Integer) director.run(argsArray);
+		
+		// Hardcoded in DirectorApplication EXIT_ERROR
+		if (ret.equals(new Integer(13)))	{
+			return false;
+		}
 		return true;
 	}
 	

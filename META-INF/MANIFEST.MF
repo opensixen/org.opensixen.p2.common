@@ -7,7 +7,8 @@ Bundle-Activator: org.opensixen.p2.common.Activator
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.osgi.framework;version="1.3.0"
 Require-Bundle: org.eclipse.equinox.p2.director;bundle-version="2.0.0",
- org.eclipse.equinox.p2.director.app;bundle-version="1.0.200"
+ org.eclipse.equinox.p2.director.app;bundle-version="1.0.200",
+ org.eclipse.core.runtime;bundle-version="3.6.0"
 Export-Package: org.apache.log4j,
  org.apache.log4j.chainsaw,
  org.apache.log4j.config,
@@ -30,3 +31,4 @@ Export-Package: org.apache.log4j,
  org.opensixen.p2.common
 Bundle-ClassPath: lib/log4j.jar,
  .
+Bundle-ActivationPolicy: lazy

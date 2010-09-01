@@ -17,30 +17,35 @@ public class ProductDescription {
 	
 	private String iu;
 
-	public final static String TYPE_LITE = "lite";
-	public final static String TYPE_CLIENT = "client";
-	public final static String TYPE_SERVER = "server";
-	public final static String TYPE_MANAGER = "manager";
-	public final static String TYPE_FULL = "full";
+	public final static String TYPE_LITE = "lite"; //$NON-NLS-1$
+	public final static String TYPE_CLIENT = "client"; //$NON-NLS-1$
+	public final static String TYPE_SERVER = "server"; //$NON-NLS-1$
+	public final static String TYPE_MANAGER = "manager"; //$NON-NLS-1$
+	public final static String TYPE_FULL = "full"; //$NON-NLS-1$
 	
 	
-	public final static String IU_LITE = "OpensixenLite";
-	public final static String IU_CLIENT = "OpensixenClient";
-	public final static String IU_SERVER = "OpensixenServer";
-	public final static String IU_MANAGER = "OpensixenServerManager";
+	public final static String IU_LITE = "OpensixenLite"; //$NON-NLS-1$
+	public final static String IU_CLIENT = "Opensixen Client"; //$NON-NLS-1$
+	public final static String IU_SERVER = "OpensixenServer"; //$NON-NLS-1$
+	public final static String IU_MANAGER = "OpensixenServerManager"; //$NON-NLS-1$
 	
-	public final static String LABEL_LITE = "Opensixen Lite";
-	public final static String LABEL_CLIENT = "Cliente Opensixen";
-	public final static String LABEL_SERVER = "Servidor Opensixen";
-	public final static String LABEL_FULL = "Instalacion Completa (cliente + servidor)";
-	public final static String LABEL_MANAGER = "Opensixen Server Manager";
+	public final static String LABEL_LITE = "Opensixen Lite"; //$NON-NLS-1$
+	public final static String LABEL_CLIENT = Messages.OPENSIXEN_CLIENT;
+	public final static String LABEL_SERVER = Messages.OPENSIXEN_SERVER;
+	public final static String LABEL_FULL = Messages.FULL_INSTALLATION;
+	public final static String LABEL_MANAGER = Messages.OPENSIXEN_MANAGER;
 	
 	
-	public final static String URL_LITE="http://dev.opensixen.org/products/lite/";
-	public final static String URL_CLIENT="http://dev.opensixen.org/products/client/";
-	public final static String URL_SERVER="http://dev.opensixen.org/products/server/";
-	public final static String URL_MANAGER="http://dev.opensixen.org/products/manager/";
+	public final static String URL_LITE="http://dev.opensixen.org/products/lite/"; //$NON-NLS-1$
+	public final static String URL_CLIENT="http://dev.opensixen.org/products/client/"; //$NON-NLS-1$
+	public final static String URL_SERVER="http://dev.opensixen.org/products/server/"; //$NON-NLS-1$
+	public final static String URL_MANAGER="http://dev.opensixen.org/products/manager/"; //$NON-NLS-1$
 		
+	public final static String PROFILE_LITE = "OpensixenLite";
+	public final static String PROFILE_SERVER = "OpensixenServer";
+	public final static String PROFILE_CLIENT = "OpensixenClient";
+	public final static String PROFILE_MANAGER = "OpensixenManager";
+	
 	
 	public ProductDescription(String iu, String profile,
 			String productMetadataURL) {
@@ -125,9 +130,9 @@ public class ProductDescription {
 	public static HashMap<String, ProductDescription> getDescriptions()	{
 		HashMap<String, ProductDescription> desc = new HashMap<String, ProductDescription>();
 		
-		desc.put(TYPE_LITE, new ProductDescription(IU_LITE, "profile", URL_LITE));
-		desc.put(TYPE_CLIENT, new ProductDescription(IU_CLIENT, "profile", URL_CLIENT));
-		desc.put(TYPE_SERVER, new ProductDescription(IU_SERVER, "profile", URL_SERVER));
+		desc.put(TYPE_LITE, new ProductDescription(IU_LITE, PROFILE_LITE, URL_LITE)); //$NON-NLS-1$
+		desc.put(TYPE_CLIENT, new ProductDescription(IU_CLIENT, PROFILE_SERVER, URL_CLIENT)); //$NON-NLS-1$
+		desc.put(TYPE_SERVER, new ProductDescription(IU_SERVER, PROFILE_SERVER, URL_SERVER)); //$NON-NLS-1$
 		
 		return desc;
 	}
