@@ -25,7 +25,7 @@ public class ProductDescription {
 	
 	
 	public final static String IU_LITE = "OpensixenLite"; //$NON-NLS-1$
-	public final static String IU_CLIENT = "Opensixen Client"; //$NON-NLS-1$
+	public final static String IU_CLIENT = "OpensixenClient"; //$NON-NLS-1$
 	public final static String IU_SERVER = "OpensixenServer"; //$NON-NLS-1$
 	public final static String IU_MANAGER = "OpensixenServerManager"; //$NON-NLS-1$
 	
