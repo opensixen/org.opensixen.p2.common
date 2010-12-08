@@ -20,6 +20,7 @@ public class ProviderFactory {
 		providers = new ArrayList<PlatformProvider>();
 		providers.add(new DebianProvider());
 		providers.add(new UbuntuProvider());
+		providers.add(new WindowsProvider());
 	}
 	
 	public static  PlatformProvider getProvider()	{

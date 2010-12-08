@@ -19,7 +19,7 @@ public class DebianProvider extends LinuxProvider {
 	 * @see org.opensixen.os.PatformDetailsProvider#matchPlatform()
 	 */
 	@Override
-	public boolean matchPlatform() {
+	protected boolean matchLinuxFlavor() {
 		if (getDistributor_ID().equals(PROVIDER_ID))	{
 			return true;
 		}

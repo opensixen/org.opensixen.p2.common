@@ -5,20 +5,23 @@ package org.opensixen.p2.common;
 
 import java.util.ArrayList;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.equinox.internal.p2.director.app.DirectorApplication;
+import org.eclipse.p2.equinox.installer.InstallDescription;
+import org.eclipse.p2.equinox.installer.InstallDescriptionParser;
+import org.eclipse.p2.equinox.installer.InstallUpdateProductOperation;
+import org.opensixen.p2.applications.InstallJob;
+import org.opensixen.p2.applications.InstallableApplication;
 import org.osgi.framework.BundleContext;
 
 /**
  * @author harlock
- *
+ *@deprecated
  */
 public class Installer {
 	
-	//private String[] repositoryURL = {"file:/home/harlock/workspace/workspace-opensixen-born/updates.opensixen.org/"};
-	//private String[] repositoryURL = {"file:/tmp/client/repository"};
-	//private String[] repositoryURL = {OpensixenRepositories.PRODUCT_LITE_URL};
 	
-	private static final String SERVER_SUFIX = "/tomcat/webapps/osx/WEB-INF/eclipse";
 	
 	private String[] shareRepositoryURL = {};
 	
@@ -28,56 +31,40 @@ public class Installer {
 		director = new DirectorApplication();
 	}
 	
-	public boolean install(String type, String targetDir)	{
+	public boolean install2(InstallableApplication app)	{
 		
-		// Para que el servidor de aplicaciones se coloque en su lugar,
-		// debemos añadir a la ruta del servidor el sufijo
-		if (type.equals(ProductDescription.TYPE_SERVER))	{
-			targetDir = targetDir + SERVER_SUFIX;
-		}
 		
-		ArrayList<String> args = getInstallBaseArgs(targetDir);
-		ProductDescription description = ProductDescription.getDescriptions().get(type);
+		ArrayList<String> args = getInstallBaseArgs(app.getPath());
 		
 		// InstallIU
 		args.add("-installIU");
-		args.add(description.getIu());
+		args.add(app.getIu());
 
 		// Profile
 		args.add("-profile");
-		args.add(description.getProfile());
+		args.add(app.getProfile());
 
 		// Repositorios
 		args.add("-repository");
-		args.add(getRepositoryParam(description.getProductMetadataURL()));
+		args.add(app.getLocation().toString());
 				
 		String[] argsArray = args.toArray(new String[args.size()]);
 		Integer ret = (Integer) director.run(argsArray);
+		
 		
 		// Hardcoded in DirectorApplication EXIT_ERROR
 		if (ret.equals(new Integer(13)))	{
 			return false;
 		}
+		
 		return true;
+		
 	}
-	
-	
-	public void list()	{
-		/*
-		ArrayList<String> args = getBaseArgs();
-
-		// InstallIU
-		args.add("-list");
-		String[] argsArray = args.toArray(new String[args.size()]);
-		director.run(argsArray);
-		*/				
-	}
-	
+		
 	private static ArrayList<String> getInstallBaseArgs(String targetDir)	{
 		ArrayList<String> args = new ArrayList<String>();
 
-		BundleContext ctx = Activator.getContext();
-		
+		BundleContext ctx = Activator.getContext();		
 		// Destino
 		args.add("-destination");
 		args.add(targetDir);
@@ -120,11 +107,7 @@ public class Installer {
 		else {
 			buff.append(", ");
 		}
-		buff.append(repoURL);
-		
-		return buff.toString();
-
-		
+		buff.append(repoURL);		
+		return buff.toString();		
 	}
-
 }

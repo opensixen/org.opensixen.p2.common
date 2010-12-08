@@ -15,9 +15,12 @@ import org.eclipse.osgi.util.NLS;
 public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "org.opensixen.p2.common.messages"; //$NON-NLS-1$
 	public static String FULL_INSTALLATION;
+	public static String OPENSIXEN_LITE;
 	public static String OPENSIXEN_CLIENT;
 	public static String OPENSIXEN_MANAGER;
 	public static String OPENSIXEN_SERVER;
+	public static String OPENSIXEN_DBSERVER;
+	
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

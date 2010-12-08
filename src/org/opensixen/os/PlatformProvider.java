@@ -61,6 +61,11 @@ public interface PlatformProvider {
 	 */
 	public boolean createDB();
 	
-	
+	/**
+	 * Run system commands
+	 * @param cmd
+	 * @return
+	 */
+	public String runCommand(String cmd) throws Exception;
 	
 }

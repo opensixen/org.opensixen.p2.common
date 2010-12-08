@@ -5,12 +5,15 @@ import java.net.URL;
 import org.apache.log4j.PropertyConfigurator;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 
 public class Activator implements BundleActivator {
 
 	private static BundleContext context;
+	
+	public static final String ID = "org.opensixen.p2.common";
 
-	static BundleContext getContext() {
+	public static BundleContext getContext() {
 		return context;
 	}
 
@@ -40,4 +43,16 @@ public class Activator implements BundleActivator {
 		Activator.context = null;
 	}
 
+
+	public static Object getService(String name) {
+		if (context == null)
+			return null;
+		ServiceReference reference = context.getServiceReference(name);
+		if (reference == null)
+			return null;
+		Object result = context.getService(reference);
+		context.ungetService(reference);
+		return result;
+	}
+	
 }
