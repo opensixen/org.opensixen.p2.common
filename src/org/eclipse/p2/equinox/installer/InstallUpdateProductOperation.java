@@ -85,9 +85,9 @@ public class InstallUpdateProductOperation {
 			}
 			
 			// P2 stuff
-			agent.registerService(IProvisioningAgent.INSTALLER_AGENT, provider.createAgent(null));
-			Activator.getContext().ungetService(agentProviderRef);
-			agent.registerService(InstallDescriptionParser.PROP_P2_PROFILE, description.getProfileProperties().get(InstallDescriptionParser.PROP_P2_PROFILE));
+			//agent.registerService(IProvisioningAgent.INSTALLER_AGENT, provider.createAgent(null));
+			//Activator.getContext().ungetService(agentProviderRef);
+			//agent.registerService(InstallDescriptionParser.PROP_P2_PROFILE, description.getProfileProperties().get(InstallDescriptionParser.PROP_P2_PROFILE));
 			
 			return agent;
 			

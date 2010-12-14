@@ -105,10 +105,10 @@ public class InstallDescriptionParser {
 		properties.put(PROP_IS_AUTO_START, "true");
 		properties.put(PROP_BUNDLE_LOCATION, application.getPath());
 		properties.put(PROP_INSTALL_LOCATION, application.getPath());
-		properties.put(PROP_AGENT_LOCATION, application.getPath());
-		properties.put("-profileProperties", null);
-		properties.put("-roaming",null);
-		properties.put("org.eclipse.update.install.features", "true");
+		properties.put(PROP_AGENT_LOCATION, application.getPath() + "/p2");
+		//properties.put("-profileProperties", null);
+		//properties.put("-roaming",null);
+		//properties.put("org.eclipse.update.install.features", "true");
 		properties.put("eclipse.p2.flavor", "tooling");
 		
 		InstallDescription result = new InstallDescription();
