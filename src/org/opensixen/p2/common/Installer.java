@@ -106,7 +106,7 @@ public class Installer {
 
 		// Repositorios
 		args.add("-repository");
-		args.add(app.getLocation().toString());
+		args.add(app.getLocation());
 				
 		String[] argsArray = args.toArray(new String[args.size()]);
 		Integer ret = (Integer) director.run(argsArray);

@@ -61,9 +61,6 @@
 
 package org.opensixen.p2.applications;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 /**
  * 
  * 
@@ -94,6 +91,14 @@ public class ServerApplication extends InstallableApplication {
 		String path =  super.getPath();
 		
 		return path + SERVER_SUFIX;
+	}
+
+	@Override
+	public String getLocation() {
+		// TODO Auto-generated method stub
+		return URL_SERVER;
 	}		
+	
+	
 	
 }

@@ -88,14 +88,8 @@ public class ClientApplication extends InstallableApplication {
 	 * @see org.opensixen.p2.applications.InstallableApplication#getLocation()
 	 */
 	@Override
-	public URI getLocation() {
-		// TODO Auto-generated method stub
-		try {
-			return new URI(URL_CLIENT);
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			return null;
-		}
+	public String getLocation() {
+		return URL_CLIENT;
 	}
 
 	

@@ -82,7 +82,7 @@ public abstract class InstallableApplication {
 	
 	private String iu;
 	
-	private URI location;
+	private String location = UPDATESITE;
 	
 	private String profile;
 	
@@ -90,15 +90,7 @@ public abstract class InstallableApplication {
 	
 	protected InstallableApplication(String iu, String profile)	{
 		this.iu = iu;		
-		this.profile = profile;
-		
-		try {
-			this.location = new URI(UPDATESITE);
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		this.profile = profile;	
 	}
 	
 	
@@ -147,14 +139,14 @@ public abstract class InstallableApplication {
 	/**
 	 * @return the location
 	 */
-	public URI getLocation() {
+	public String getLocation() {
 		return location;
 	}
 
 	/**
 	 * @param location the location to set
 	 */
-	public void setLocation(URI location) {
+	public void setLocation(String location) {
 		this.location = location;
 	}
 
@@ -196,6 +188,4 @@ public abstract class InstallableApplication {
 	public void afterInstall()	{
 		
 	}
-	
-	
 }

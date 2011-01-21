@@ -42,52 +42,7 @@ public class InstallDescriptionParser {
 	public static final String PROP_ROOT_ID = "eclipse.p2.rootId";//$NON-NLS-1$
 	public static final String PROP_ROOT_VERSION = "eclipse.p2.rootVersion";//$NON-NLS-1$
 	public static final String PROP_ROOTS = "eclipse.p2.roots";//$NON-NLS-1$
-	
-	/**
-	 * Loads and returns an install description that is stored in a properties file.
-	 * @param site The URL of the install properties file.
-	 */
-	/*
-	public static InstallDescription createDescription(String site, SubMonitor monitor) throws Exception {
-		// if no description URL was given from the outside, look for an "install.properties" file 
-		// in relative to where the installer is running.  This allows the installer to be self-contained
-		if (site == null)
-			site = "installer.properties"; //$NON-NLS-1$
 
-		URI propsURI = URIUtil.fromString(site);
-		InputStream in = null;
-		if (!propsURI.isAbsolute()) {
-			String installerInstallArea = System.getProperty("osgi.install.area");
-			if (installerInstallArea == null)
-				throw new IllegalStateException("Install area is not specified.");
-
-			propsURI = URIUtil.append(URIUtil.fromString(installerInstallArea), site);
-			File installerDescription = URIUtil.toFile(propsURI);
-			if (!installerDescription.exists()) {
-				throw new IllegalStateException("Can't find install description file: " + installerDescription);
-			}
-		}
-		Map<String, String> properties;
-		try {
-			in = RepositoryTransport.getInstance().stream(propsURI, monitor);
-			properties = CollectionUtils.loadProperties(in);
-		} finally {
-			safeClose(in);
-		}
-
-		URI base = getBase(propsURI);
-		InstallDescription result = new InstallDescription();
-		result = initialize(result, properties, base);
-		initializeProfileProperties(result, properties);
-
-		// now override the properties from anything interesting in system properties
-		result = initialize(result, CollectionUtils.toMap(System.getProperties()), base);
-		return result;
-	}
-	
-	
-	
-	*/
 	
 	/**
 	 * Loads and returns an install description that is stored in a properties file.
@@ -97,7 +52,7 @@ public class InstallDescriptionParser {
 		
 		Map<String, String> properties = new HashMap<String, String>();
 		
-		properties.put(PROP_METADATA_REPOSITORY, application.getLocation().toString());
+		properties.put(PROP_METADATA_REPOSITORY, application.getLocation());
 		properties.put(PROP_ARTIFACT_REPOSITORY, application.getLocation().toString());
 		properties.put(PROP_PROFILE_NAME, application.getProfile());
 		properties.put(PROP_P2_PROFILE, application.getProfile());
