@@ -58,139 +58,111 @@
  * lo gobiernan,  GPL 2.0/CDDL 1.0/EPL 1.0.
  *
  * ***** END LICENSE BLOCK ***** */
+package org.opensixen.os;
 
-package org.opensixen.p2.applications;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import org.apache.log4j.Logger;
+import org.opensixen.p2.common.Activator;
+import org.osgi.framework.BundleContext;
 
 /**
  * 
  * 
- * @author Eloy Gomez
+ * @author Eloy Gomez 
  * Indeos Consultoria http://www.indeos.es
- *
+ * 
  */
-public abstract class InstallableApplication {
+public abstract class AbstractLinuxProvider extends BaseProvider implements PlatformProvider {	
 	
-	
-	public static final String UPDATESITE = "http://dev.opensixen.org/updates";
+	private static final String OS_LINUX = "linux";
 
-	private String path;
-	
-	private String type;
-	
-	private String iu;
-	
-	private String location = UPDATESITE;
-	
-	private String profile;
-	
-	protected Logger log = Logger.getLogger(getClass());
-	
-	
-	private boolean installOk; 
-	
-	protected InstallableApplication(String iu, String profile)	{
-		this.iu = iu;		
-		this.profile = profile;	
-	}
-	
-	
-	/**
-	 * @return the path
+	/* (non-Javadoc)
+	 * @see org.opensixen.os.PatformDetailsProvider#getExecPath(int)
 	 */
-	public String getPath() {
-		return path;
-	}
+	@Override
+	public String getExecPath(int exec) {
+		switch (exec) {
+		case PlatformProvider.EXEC_PGSQL:
+			return "/usr/bin/psql";
+		case PlatformProvider.EXEC_PGDUMP:
+			return "/usr/bin/pg_dump";
 
-	/**
-	 * @param path the path to set
-	 */
-	public void setPath(String path) {
-		this.path = path;
-	}
-
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	/**
-	 * @return the iu
-	 */
-	public String getIu() {
-		return iu;
-	}
-
-	/**
-	 * @param iu the iu to set
-	 */
-	public void setIu(String iu) {
-		this.iu = iu;
-	}
-
-	/**
-	 * @return the location
-	 */
-	public String getLocation() {
-		return location;
-	}
-
-	/**
-	 * @param location the location to set
-	 */
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	/**
-	 * @return the profile
-	 */
-	public String getProfile() {
-		return profile;
-	}
-
-	/**
-	 * @param profile the profile to set
-	 */
-	public void setProfile(String profile) {
-		this.profile = profile;
+		default:
+			return null;
+		}
 	}
 
 
-	/**
-	 * @return the installOk
-	 */
-	public boolean isInstallOk() {
-		return installOk;
-	}
-
-
-	/**
-	 * @param installOk the installOk to set
-	 */
-	public void setInstallOk(boolean installOk) {
-		this.installOk = installOk;
-	}	
-		
-	/**
-	 * After install process
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * must be extended
+	 * @see org.opensixen.os.PatformDetailsProvider#isUnix()
 	 */
-	public void afterInstall()	{
-		
+	@Override
+	public boolean isUnix() {
+		return true;
 	}
+
+	/**
+	 * Try to get the Distributor ID via lsb_release -i
+	 * 
+	 * @return
+	 */
+	public String getDistributor_ID() {
+		try {
+			String id = runCommand("lsb_release -i");
+			String flavour = id.substring(id.lastIndexOf(":")+1).trim();  
+			return flavour;
+		}
+		catch (Exception e)	{
+			return null;
+		}
+	}
+	
+	public boolean runSQL(String sql)	{
+		return true;
+	}
+
+	
+	protected abstract boolean matchLinuxFlavor();
+
+	/* (non-Javadoc)
+	 * @see org.opensixen.os.PlatformProvider#matchPlatform()
+	 */
+	@Override
+	public boolean matchPlatform() {
+		BundleContext ctx = Activator.getContext();
+		String os =  ctx.getProperty("osgi.os");
+		if (OS_LINUX.equals(os))	{
+			return matchLinuxFlavor();
+		}
+		return false;
+
+	}
+
+	@Override
+	public String getPath(int path) {
+		switch (path) {
+		case PATH_CLIENT_ROOT_DEFAULT:
+			return HOME + SP + "opensixen" + SP + "client";
+		case PATH_SERVER_ROOT_DEFAULT:
+			return HOME + SP + "opensixen" + SP + "server";
+		case PATH_PGSQL_ROOT_DEFAULT:
+			return HOME + SP + "opensixen" + SP + "pgsql";
+		default:
+			throw new RuntimeException("Unknown path: " + path );
+		}
+	}
+
+	@Override
+	public boolean createDBUser() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean createDB() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	
 }

@@ -96,6 +96,11 @@ public class PostgresApplication extends InstallableApplication {
 	@Override
 	public void afterInstall() {
 		PlatformProvider provider = ProviderFactory.getProvider();
+		// Unix don't need this
+		if (provider.isUnix())	{
+			return;
+		}
+		
 		String cmdReg = getPath() + "/" + CMD_REGISTER;		
 		String cmdUnreg = getPath() + "/" + CMD_UNREGISTER;
 		try {

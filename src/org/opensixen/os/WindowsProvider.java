@@ -120,5 +120,18 @@ public class WindowsProvider extends BaseProvider implements PlatformProvider {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
+	@Override
+	public String getPath(int path) {
+		switch (path) {
+		case PATH_CLIENT_ROOT_DEFAULT:
+			return HOME + SP + "opensixen" + SP + "client";
+		case PATH_SERVER_ROOT_DEFAULT:
+			return HOME + SP + "opensixen" + SP + "server";
+		case PATH_PGSQL_ROOT_DEFAULT:
+			return HOME + SP + "opensixen" + SP + "pgsql";
+		default:
+			throw new RuntimeException("Unknown path: " + path );
+		}
+	}
 }

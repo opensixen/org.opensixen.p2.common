@@ -79,6 +79,9 @@ public class ProviderFactory {
 		providers.add(new DebianProvider());
 		providers.add(new UbuntuProvider());
 		providers.add(new WindowsProvider());
+		
+		// The last, the default linux provider.
+		providers.add(new LinuxProvider());
 	}
 	
 	public static  PlatformProvider getProvider()	{

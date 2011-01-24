@@ -1,4 +1,4 @@
- /******* BEGIN LICENSE BLOCK *****
+/******* BEGIN LICENSE BLOCK *****
  * Versión: GPL 2.0/CDDL 1.0/EPL 1.0
  *
  * Los contenidos de este fichero están sujetos a la Licencia
@@ -62,29 +62,46 @@
 package org.opensixen.os;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+
+import org.apache.log4j.Logger;
 
 /**
  * 
  * 
- * @author Eloy Gomez 
- * Indeos Consultoria http://www.indeos.es
+ * @author Eloy Gomez Indeos Consultoria http://www.indeos.es
  * 
  */
 public class BaseProvider {
 
-	public String runCommand(String cmd) throws Exception {
-		StringBuffer buff = new StringBuffer();
+	protected static String HOME = System.getProperty("user.home");
+	protected static String SP = System.getProperty("file.separator");
 
-		Process p = Runtime.getRuntime().exec(cmd);
-		p.waitFor();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				p.getInputStream()));
-		String s;
-		while ((s = reader.readLine()) != null) {
-			buff.append(s);
+	protected Logger log = Logger.getLogger(getClass());
+
+	public String runCommand(String cmd) throws Exception {
+
+		Process proc = Runtime.getRuntime().exec(cmd);
+		int exitVal = proc.waitFor();
+		if (exitVal == 0) {
+			BufferedReader reader = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+			StringBuffer buff = new StringBuffer();
+			String s;
+			while ((s = reader.readLine()) != null) {
+				buff.append(s);
+			}
+			return buff.toString();
 		}
-		return buff.toString();
+		// Log error
+		InputStream stderr = proc.getErrorStream();
+		InputStreamReader isr = new InputStreamReader(stderr);
+		BufferedReader br = new BufferedReader(isr);
+		StringBuffer error = new StringBuffer();
+		String line = null;
+		while ((line = br.readLine()) != null)
+			error.append(line);
+		throw new RuntimeException(error.toString());		
 	}
 
 }

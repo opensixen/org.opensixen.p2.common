@@ -83,23 +83,4 @@ public class DebianProvider extends LinuxProvider {
 		}
 		return false;
 	}
-
-	/* (non-Javadoc)
-	 * @see org.opensixen.os.PlatformProvider#createDBUser()
-	 */
-	@Override
-	public boolean createDBUser() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.opensixen.os.PlatformProvider#createDB()
-	 */
-	@Override
-	public boolean createDB() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }

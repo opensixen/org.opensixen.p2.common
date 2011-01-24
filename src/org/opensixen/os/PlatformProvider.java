@@ -71,12 +71,19 @@ package org.opensixen.os;
 public interface PlatformProvider {
 
 	/** pgsql excutable */
-	public final static int PGSQL = 0;
+	public final static int EXEC_PGSQL = 0;
 	
 	/** pgdump excutable */
-	public final static int PGDUMP = 1;
+	public final static int EXEC_PGDUMP = 1;
 	
+	/** client default path	*/
+	public final static int PATH_CLIENT_ROOT_DEFAULT = 0;
 	
+	/** server default path	*/
+	public final static int PATH_SERVER_ROOT_DEFAULT = 1;
+	
+	/** postgres default path	*/
+	public final static int PATH_PGSQL_ROOT_DEFAULT = 2;
 	
 	/**
 	 * Get filesystem path to the
@@ -86,6 +93,15 @@ public interface PlatformProvider {
 	 * @return 
 	 */
 	public String getExecPath(int exec);
+	
+	/**
+	 * Get filesystem path to the
+	 * requested exec
+	 * 
+	 * @param exec see PlatformDetails.*
+	 * @return 
+	 */
+	public String getPath(int path);
 	
 	
 	/**
