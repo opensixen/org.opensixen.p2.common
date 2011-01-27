@@ -105,6 +105,10 @@ public class ServerApplication extends InstallableApplication {
 
 		return path + SERVER_SUFIX;
 	}
+	
+	public String getRealPath()	{
+		return super.getPath();
+	}
 
 	@Override
 	public String getLocation() {

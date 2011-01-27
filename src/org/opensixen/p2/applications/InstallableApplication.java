@@ -91,7 +91,9 @@ public abstract class InstallableApplication {
 	protected Logger log = Logger.getLogger(getClass());
 	
 	
-	private boolean installOk; 
+	private boolean installOk = false; 
+	
+	private boolean configOk = false;
 	
 	protected InstallableApplication(String iu, String profile)	{
 		this.iu = iu;		
@@ -184,7 +186,19 @@ public abstract class InstallableApplication {
 	public void setInstallOk(boolean installOk) {
 		this.installOk = installOk;
 	}	
-		
+	
+	
+	
+	public boolean isConfigOk() {
+		return configOk;
+	}
+
+
+	public void setConfigOk(boolean configOk) {
+		this.configOk = configOk;
+	}
+
+
 	/**
 	 * After install process
 	 * 

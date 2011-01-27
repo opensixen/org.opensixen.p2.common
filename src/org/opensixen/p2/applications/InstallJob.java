@@ -74,7 +74,6 @@ public class InstallJob {
 
 	private ArrayList<InstallableApplication> installableApplications;
 	
-
 	private static InstallJob instance;
 	
 	public static InstallJob getInstance()	{
@@ -104,5 +103,15 @@ public class InstallJob {
 	public void setInstallableApplications(ArrayList<InstallableApplication> installableApplications) {
 		this.installableApplications = installableApplications;
 	}
-		
+
+	public boolean isInstallFinishOk() {
+		for (InstallableApplication app:installableApplications)	{
+			if (app.isInstallOk()  == false|| app.isConfigOk() == false)	{
+				return false;
+			}
+		}
+		return true;
+	}	
+	
+	
 }

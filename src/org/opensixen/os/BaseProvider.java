@@ -73,13 +73,21 @@ import org.apache.log4j.Logger;
  * @author Eloy Gomez Indeos Consultoria http://www.indeos.es
  * 
  */
-public class BaseProvider {
+public abstract class BaseProvider implements PlatformProvider{
 
 	protected static String HOME = System.getProperty("user.home");
 	protected static String SP = System.getProperty("file.separator");
 
 	protected Logger log = Logger.getLogger(getClass());
 
+	private PlatformDetails platformDetails;
+	
+	/**
+	 * Exectute systems commands
+	 * @param cmd
+	 * @return the string returned by the command
+	 * @throws Exception
+	 */
 	public String runCommand(String cmd) throws Exception {
 
 		Process proc = Runtime.getRuntime().exec(cmd);
@@ -103,5 +111,18 @@ public class BaseProvider {
 			error.append(line);
 		throw new RuntimeException(error.toString());		
 	}
+
+	/**
+	 * Return Platform Details
+	 * @return
+	 */
+	public PlatformDetails getPlatformDetails() {
+		if (platformDetails == null)	{
+			platformDetails = new PlatformDetails(this);
+		}
+		return platformDetails;
+	}
+	
+	
 
 }

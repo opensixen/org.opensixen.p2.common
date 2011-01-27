@@ -74,19 +74,20 @@ import java.net.UnknownHostException;
 public class PlatformDetails {
 
 	
-	private static  PlatformProvider provider;
+	private  PlatformProvider provider;
 
-	private static String hostname;
+	private String hostname;
 
-	private static byte[] IPAddrBytes;
+	private byte[] IPAddrBytes;
 
-	private static String IP;
+	private String IP;
 	
-
 	/**
-	 * Static constructor
+	 * Constructor
+	 * @param provider
 	 */
-	static {
+	public PlatformDetails (PlatformProvider provider)	{
+		this.provider = provider;
 		try {
 			InetAddress addr = InetAddress.getLocalHost();
 
@@ -108,7 +109,7 @@ public class PlatformDetails {
 	/**
 	 * @return the hostname
 	 */
-	public static String getHostname() {
+	public String getHostname() {
 		return hostname;
 	}
 
@@ -116,7 +117,7 @@ public class PlatformDetails {
 	/**
 	 * @return the iPAddrBytes
 	 */
-	public static byte[] getIPAddrBytes() {
+	public byte[] getIPAddrBytes() {
 		return IPAddrBytes;
 	}
 
@@ -124,7 +125,7 @@ public class PlatformDetails {
 	/**
 	 * @return the iP
 	 */
-	public static String getIP() {
+	public String getIP() {
 		return IP;
 	}
 	

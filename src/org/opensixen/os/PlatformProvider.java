@@ -142,4 +142,9 @@ public interface PlatformProvider {
 	 */
 	public String runCommand(String cmd) throws Exception;
 	
+	/**
+	 * Return Platform Details
+	 * @return
+	 */
+	public PlatformDetails getPlatformDetails();
 }

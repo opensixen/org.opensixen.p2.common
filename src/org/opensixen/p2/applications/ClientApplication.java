@@ -91,8 +91,4 @@ public class ClientApplication extends InstallableApplication {
 	public String getLocation() {
 		return URL_CLIENT;
 	}
-
-	
-	
-	
 }
