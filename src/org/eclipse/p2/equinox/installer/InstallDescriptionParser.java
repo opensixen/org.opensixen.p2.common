@@ -25,6 +25,7 @@ import org.eclipse.equinox.p2.metadata.VersionedId;
 import org.eclipse.equinox.p2.metadata.IVersionedId;
 import org.opensixen.p2.applications.InstallableApplication;
 import org.opensixen.p2.common.Activator;
+import org.opensixen.p2.exceptions.P2Exception;
 
 /**
  * This class is responsible for loading install descriptions from a stream.
@@ -48,15 +49,15 @@ public class InstallDescriptionParser {
 	 * Loads and returns an install description that is stored in a properties file.
 	 * @param site The URL of the install properties file.
 	 */
-	public static InstallDescription createDescription(InstallableApplication application, SubMonitor monitor) throws Exception {
+	public static InstallDescription createDescription(InstallableApplication application, SubMonitor monitor) throws P2Exception {
 		
 		Map<String, String> properties = new HashMap<String, String>();
 		
-		properties.put(PROP_METADATA_REPOSITORY, application.getLocation());
-		properties.put(PROP_ARTIFACT_REPOSITORY, application.getLocation().toString());
+		properties.put(PROP_METADATA_REPOSITORY, application.getUpdateSite().toString());
+		properties.put(PROP_ARTIFACT_REPOSITORY, application.getUpdateSite().toString());
 		properties.put(PROP_PROFILE_NAME, application.getProfile());
 		properties.put(PROP_P2_PROFILE, application.getProfile());
-		properties.put(PROP_ROOT_ID, application.getIu());
+		properties.put(PROP_ROOT_ID, application.getID());
 		properties.put(PROP_IS_AUTO_START, "true");
 		properties.put(PROP_BUNDLE_LOCATION, application.getPath());
 		properties.put(PROP_INSTALL_LOCATION, application.getPath());

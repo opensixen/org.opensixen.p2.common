@@ -58,63 +58,128 @@
  * lo gobiernan,  GPL 2.0/CDDL 1.0/EPL 1.0.
  *
  * ***** END LICENSE BLOCK ***** */
-
 package org.opensixen.p2.applications;
 
 import java.net.URI;
-import java.net.URISyntaxException;
-
-import org.opensixen.os.PlatformProvider;
-import org.opensixen.os.ProviderFactory;
 
 /**
+ * InstallableUnit model.
  * 
- * 
+ * This class contains the minimal data required 
+ * to contain Opensixen Instalable Units information
+ *
  * @author Eloy Gomez
  * Indeos Consultoria http://www.indeos.es
- *
  */
-public class PostgresApplication extends InstallableApplication {
+public class InstallableUnitData {
 
-	public final static String IU_POSTGRES = "feature.opensixen.bundle.postgres.feature.group"; //$NON-NLS-1$	
-	public final static String PROFILE_POSTGRES = "PostgreSQL";	
-	
-	private static String CMD_REGISTER = "addService.bat";
-	private static String CMD_UNREGISTER = "removeService.bat";
-	
-	
+	 private String name;
+	 
+	 private String description;
+	 
+	 private String ID;
+	 
+	 private URI updateSite;
+	 
+
 	/**
 	 * 
 	 */
-	public PostgresApplication() {
-		super(IU_POSTGRES, PROFILE_POSTGRES);
+	public InstallableUnitData() {
+		super();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.opensixen.p2.applications.InstallableApplication#afterInstall()
+	/**
+	 * @param name
+	 * @param description
+	 * @param iD
 	 */
-	@Override
-	public void afterInstall() {
-		PlatformProvider provider = ProviderFactory.getProvider();
-		// Unix don't need this
-		if (provider.isUnix())	{
-			return;
-		}
-		
-		String cmdReg = getPath() + "/" + CMD_REGISTER;		
-		String cmdUnreg = getPath() + "/" + CMD_UNREGISTER;
-		try {
-			// First try to unregister
-			provider.runCommand(cmdUnreg);
-			
-			// Register database.
-			provider.runCommand(cmdReg);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public InstallableUnitData(String ID,String name, String description) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.ID = ID;
 	}
 	
+	/**
+	 * @param name
+	 * @param description
+	 * @param iD
+	 */
+	public InstallableUnitData(String ID,String name, String description, URI updateSite) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.updateSite = updateSite;
+		this.ID = ID;
+	}
+
+	/**
+	 * @param name
+	 * @param iD
+	 */
+	public InstallableUnitData(String ID,String name, URI updateSite) {
+		super();
+		this.name = name;
+		this.updateSite = updateSite;
+		this.ID = ID;
+	}
+	
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * @return the iD
+	 */
+	public String getID() {
+		return ID;
+	}
+
+	/**
+	 * @param iD the iD to set
+	 */
+	public void setID(String iD) {
+		ID = iD;
+	}
+
+	/**
+	 * @return the updateSite
+	 */
+	public URI getUpdateSite() {
+		return updateSite;
+	}
+
+	/**
+	 * @param updateSite the updateSite to set
+	 */
+	public void setUpdateSite(URI updateSite) {
+		this.updateSite = updateSite;
+	}	 	 	
 	
 	
 }

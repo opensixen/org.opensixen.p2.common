@@ -62,46 +62,72 @@
 package org.opensixen.p2.applications;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.apache.log4j.Logger;
 
 /**
- * 
+ * Model for installable Application via P2Director
  * 
  * @author Eloy Gomez
  * Indeos Consultoria http://www.indeos.es
  *
  */
-public abstract class InstallableApplication {
+public class InstallableApplication extends InstallableUnitData {
+				
+	public final static String PROFILE_SERVER = "OpensixenServer";
 	
-	
-	public static final String UPDATESITE = "http://dev.opensixen.org/updates";
+	/**
+	 * 
+	 */
+	public InstallableApplication() {
+		super();
+	}
+
+	/**
+	 * @param ID
+	 * @param name
+	 * @param description
+	 * @param updateSite
+	 */
+	public InstallableApplication(String ID, String name, String description,
+			URI updateSite) {
+		super(ID, name, description, updateSite);
+	}
+
+	/**
+	 * @param ID
+	 * @param name
+	 * @param description
+	 */
+	public InstallableApplication(String ID, String name, String description) {
+		super(ID, name, description);
+	}
+
+	/**
+	 * @param ID
+	 * @param name
+	 * @param updateSite
+	 */
+	public InstallableApplication(String ID, String name, URI updateSite) {
+		super(ID, name, updateSite);
+	}
+
 
 	private String path;
-	
-	private String type;
-	
-	private String iu;
-	
-	private String location = UPDATESITE;
 	
 	private String profile;
 	
 	protected Logger log = Logger.getLogger(getClass());
-	
-	
+		
 	private boolean installOk = false; 
 	
 	private boolean configOk = false;
 	
-	protected InstallableApplication(String iu, String profile)	{
-		this.iu = iu;		
-		this.profile = profile;	
-	}
-	
-	
+			
 	/**
+	 * Return the path where app should be installed
+	 * or updated
+	 * 
 	 * @return the path
 	 */
 	public String getPath() {
@@ -109,53 +135,14 @@ public abstract class InstallableApplication {
 	}
 
 	/**
+	 * Set the path where the app shound be installed
+	 * or updated
 	 * @param path the path to set
 	 */
 	public void setPath(String path) {
 		this.path = path;
 	}
 
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
-
-	/**
-	 * @param type the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	/**
-	 * @return the iu
-	 */
-	public String getIu() {
-		return iu;
-	}
-
-	/**
-	 * @param iu the iu to set
-	 */
-	public void setIu(String iu) {
-		this.iu = iu;
-	}
-
-	/**
-	 * @return the location
-	 */
-	public String getLocation() {
-		return location;
-	}
-
-	/**
-	 * @param location the location to set
-	 */
-	public void setLocation(String location) {
-		this.location = location;
-	}
 
 	/**
 	 * @return the profile

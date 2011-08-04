@@ -14,7 +14,8 @@ Require-Bundle: org.eclipse.equinox.p2.director;bundle-version="2.0.0",
  org.eclipse.equinox.p2.engine;bundle-version="2.0.0",
  org.eclipse.equinox.p2.core;bundle-version="2.0.0",
  org.eclipse.equinox.p2.artifact.repository;bundle-version="1.1.0",
- org.eclipse.equinox.p2.repository;bundle-version="2.0.0"
+ org.eclipse.equinox.p2.repository;bundle-version="2.0.0",
+ org.eclipse.equinox.p2.operations;bundle-version="2.0.0"
 Export-Package: org.apache.log4j,
  org.apache.log4j.chainsaw,
  org.apache.log4j.config,
@@ -36,6 +37,7 @@ Export-Package: org.apache.log4j,
  org.compiere.util,
  org.eclipse.p2.equinox.installer,
  org.opensixen.os,
+ org.opensixen.p2,
  org.opensixen.p2.applications,
  org.opensixen.p2.common
 Bundle-ClassPath: lib/log4j.jar,

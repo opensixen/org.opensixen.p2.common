@@ -62,6 +62,7 @@
 package org.opensixen.p2.applications;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 
@@ -72,7 +73,7 @@ import java.util.ArrayList;
  */
 public class InstallJob {
 
-	private ArrayList<InstallableApplication> installableApplications;
+	private List<InstallableApplication> installableApplications;
 	
 	private static InstallJob instance;
 	
@@ -93,7 +94,7 @@ public class InstallJob {
 	/**
 	 * @return the installableApplications
 	 */
-	public ArrayList<InstallableApplication> getInstallableApplications() {
+	public List<InstallableApplication> getInstallableApplications() {
 		return installableApplications;
 	}
 
@@ -113,5 +114,30 @@ public class InstallJob {
 		return true;
 	}	
 	
+	/**
+	 * Add InstalableApplication to install job
+	 * @param app
+	 */
+	public void addInstallableApplication(InstallableApplication app)	{
+		if (installableApplications == null)	{
+			installableApplications = new ArrayList<InstallableApplication>();
+		}
+		installableApplications.add(app);
+	}
 	
+	/**
+	 * Remove InstallableApplication from job
+	 * @param app
+	 * @return
+	 */
+	public boolean removeInstallableApplication(InstallableApplication app)	{
+		if (installableApplications == null)	{
+			return false;
+		}
+		if (!installableApplications.contains(app))	{
+			return false;
+		}
+		
+		return installableApplications.remove(app);
+	}
 }

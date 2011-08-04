@@ -19,14 +19,22 @@ import java.net.URI;
 import java.util.*;
 import org.eclipse.core.runtime.*;
 import org.eclipse.equinox.internal.p2.core.helpers.ServiceHelper;
+import org.eclipse.equinox.internal.p2.director.app.Messages;
 import org.eclipse.equinox.internal.provisional.p2.director.IDirector;
+import org.eclipse.equinox.internal.provisional.p2.director.PlanExecutionHelper;
 import org.eclipse.equinox.internal.provisional.p2.director.ProfileChangeRequest;
 import org.eclipse.equinox.p2.core.IProvisioningAgent;
 import org.eclipse.equinox.p2.core.IProvisioningAgentProvider;
 import org.eclipse.equinox.p2.core.ProvisionException;
+import org.eclipse.equinox.p2.engine.IEngine;
 import org.eclipse.equinox.p2.engine.IProfile;
 import org.eclipse.equinox.p2.engine.IProfileRegistry;
+import org.eclipse.equinox.p2.engine.IProvisioningPlan;
+import org.eclipse.equinox.p2.engine.ProvisioningContext;
 import org.eclipse.equinox.p2.metadata.*;
+import org.eclipse.equinox.p2.operations.InstallOperation;
+import org.eclipse.equinox.p2.operations.ProfileChangeOperation;
+import org.eclipse.equinox.p2.operations.ProvisioningSession;
 import org.eclipse.equinox.p2.planner.IPlanner;
 import org.eclipse.equinox.p2.planner.IProfileChangeRequest;
 import org.eclipse.equinox.p2.query.*;
@@ -160,19 +168,61 @@ public class InstallUpdateProductOperation {
 		IStatus s;
 		IProfileChangeRequest request = getPlanner().createChangeRequest(p);
 		if (isInstall) {
-			monitor.setTaskName(NLS.bind("Instalando", installDescription.getProductName()));
+			monitor.setTaskName(NLS.bind("Instalando: ", installDescription.getProductName()));
 			request.addAll(toInstall);
 			s = director.provision((ProfileChangeRequest) request, null, monitor.newChild(90));
 		} else {
-			monitor.setTaskName(NLS.bind("Actualizando", installDescription.getProductName()));
-			IQueryResult<IInstallableUnit> toUninstall = computeUnitsToUninstall(p);
-			request.removeAll(toUninstall.toUnmodifiableSet());
+			monitor.setTaskName(NLS.bind("Actualizando: ", installDescription.getProductName()));
+			//IQueryResult<IInstallableUnit> toUninstall = computeUnitsToUninstall(p);
+			//request.removeAll(toUninstall.toUnmodifiableSet());
 			request.addAll(toInstall);
 			s = director.provision((ProfileChangeRequest) request, null, monitor.newChild(90));
 		}
 		if (!s.isOK())
 			throw new CoreException(s);
 	}
+	
+	/**
+	 * Modifify selected profile
+	 * 
+	 * This method is used to add applications to current server installation.
+	 * @param monitor
+	 * @throws CoreException
+	 */
+	private void modifyProfile(SubMonitor monitor) throws CoreException {
+		prepareMetadataRepositories();
+		prepareArtifactRepositories();
+		IPlanner planner = (IPlanner) agent.getService(IPlanner.SERVICE_NAME);
+		if (planner == null)
+			throw new RuntimeException(Messages.Missing_planner);
+
+		IEngine engine = (IEngine) agent.getService(IEngine.SERVICE_NAME);
+		if (engine == null)
+			throw new RuntimeException(Messages.Missing_Engine);
+		
+		IProfile p = createProfile();
+		Collection<IInstallableUnit> toInstall = computeUnitsToInstall();
+		monitor.worked(5);
+		ProfileChangeRequest request = ProfileChangeRequest.createByProfileId(agent, getProfileId());
+		request.addAll(toInstall);
+		ProvisioningContext context = new ProvisioningContext(agent);
+		URI[] repos = {URI.create("file:///tmp/asesoria")};
+		context.setMetadataRepositories(repos);
+		context.setArtifactRepositories(repos);
+		IStatus operationStatus;
+		IProvisioningPlan result = planner.getProvisioningPlan(request, context, monitor);
+		if (!result.getStatus().isOK())
+			operationStatus = result.getStatus();
+		else {
+			operationStatus = PlanExecutionHelper.executePlan(result, engine, context, monitor);
+		}
+		//ProvisioningSession sess = new ProvisioningSession(agent);
+		//InstallOperation op = new InstallOperation(sess, toInstall);
+		//op.setProfileId(getProfileId());
+		//op.resolveModal(monitor);
+		
+	}
+	
 
 	/**
 	 * Returns an exception of severity error with the given error message.
@@ -268,6 +318,29 @@ public class InstallUpdateProductOperation {
 		}
 		return result;
 	}
+	
+	
+	public IStatus addPackages(IProgressMonitor pm) {
+		SubMonitor monitor = SubMonitor.convert(pm, "Preparando", 100);
+		try {
+			try {
+				preInstall();
+				isInstall = getProfile() == null;
+				modifyProfile(monitor);
+				result = new Status(IStatus.OK, Activator.ID, isInstall ? "Instalacion Completada" : "Actualizacion completada", null);
+				monitor.setTaskName("Limpiando");
+			} finally {
+				postInstall();
+			}
+		} catch (CoreException e) {
+			result = e.getStatus();
+		} finally {
+			monitor.done();
+		}
+		return result;
+	}
+
+	
 
 	/**
 	 * Returns whether this operation represents the product being installed

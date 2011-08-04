@@ -58,37 +58,89 @@
  * lo gobiernan,  GPL 2.0/CDDL 1.0/EPL 1.0.
  *
  * ***** END LICENSE BLOCK ***** */
-
 package org.opensixen.p2.applications;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
+import org.apache.log4j.Logger;
+import org.eclipse.core.runtime.IProgressMonitor;
 /**
- * 
- * 
+ * LoggerProgressMonitor 
+ *
  * @author Eloy Gomez
  * Indeos Consultoria http://www.indeos.es
- *
  */
-public class ClientApplication extends InstallableApplication {
-	
-	public final static String IU_CLIENT = "OpensixenClient"; //$NON-NLS-1$
-	public final static String URL_CLIENT="http://dev.opensixen.org/products/client/"; //$NON-NLS-1$
-	public final static String PROFILE_CLIENT = "OpensixenClient";
-	
-	/**
-	 * @param iu
-	 */
-	public ClientApplication() {
-		super(IU_CLIENT, PROFILE_CLIENT);
-	}
+public class LoggerProgressMonitor implements IProgressMonitor {
+
+	private Logger log = Logger.getLogger(getClass());
 	
 	/* (non-Javadoc)
-	 * @see org.opensixen.p2.applications.InstallableApplication#getLocation()
+	 * @see org.eclipse.core.runtime.IProgressMonitor#beginTask(java.lang.String, int)
 	 */
 	@Override
-	public String getLocation() {
-		return URL_CLIENT;
+	public void beginTask(String name, int totalWork) {
+		log.info("Starting "+ name);		
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.runtime.IProgressMonitor#done()
+	 */
+	@Override
+	public void done() {
+		log.info("Work done.");
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.runtime.IProgressMonitor#internalWorked(double)
+	 */
+	@Override
+	public void internalWorked(double work) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.runtime.IProgressMonitor#isCanceled()
+	 */
+	
+	private boolean canceled;
+	@Override
+	public boolean isCanceled() {
+		return canceled;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.runtime.IProgressMonitor#setCanceled(boolean)
+	 */
+	@Override
+	public void setCanceled(boolean value) {
+		canceled = value;
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.runtime.IProgressMonitor#setTaskName(java.lang.String)
+	 */
+	@Override
+	public void setTaskName(String name) {
+		log.info("Starting task" + name);		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.runtime.IProgressMonitor#subTask(java.lang.String)
+	 */
+	@Override
+	public void subTask(String name) {
+		log.info("Starting sub task" + name);
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.core.runtime.IProgressMonitor#worked(int)
+	 */
+	@Override
+	public void worked(int work) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
